@@ -1,29 +1,37 @@
-from numpy import loadtxt, where, exp, array, transpose, dot, zeros, ones,append
-from pylab import scatter, show, legend, xlabel, ylabel
+from numpy import loadtxt, exp, array, transpose, log,  dot, zeros, ones, append
 
 
 def sigmoid(func):
-    return 1/(1 + exp(func))
+    func = min(func, 200)
+    func = max(func, -200)
+
+    return 1/(1 + exp(-1*func))
 
 
 def hypothesis(theta,x):
-    return sigmoid(dot(x, theta.T))
+    return sigmoid(dot(x, transpose(theta)))
 
 
-def cost(output, expected):
-    diff = (output - expected)
-    power_diff = diff*diff
-    power_diff.mean()/2
+def cost_func(x, y, theta):
+    num_test = len(x)
+    sum = 0
+    for i in range(num_test):
+        ht = hypothesis(theta, x[i])
+        if not(ht == 0 or ht == 1):
+            sum += (y[i]*log(ht)) + ((1 - y[i])*log(1 - ht))
+
+    return (-1*sum)/num_test
 
 '''
     theta should be n*1
     x should be m*n
 '''
+
 def gd(theta, x, y, num_iter,alpha):
     num_test = len(y)
     num_feature = len(theta)
     for iter in range(num_iter):
-        ht = []
+        ht = zeros(num_test)
         for k in range(num_test):
             ht[k] = hypothesis(theta,x[k])
 
@@ -35,52 +43,31 @@ def gd(theta, x, y, num_iter,alpha):
 
     return theta
 
-def calculate(x,y):
-    num_feature = len(x)
-    o = ones((len(y), 1))
-    x = append(o, x, 1)
-    theta = zeros(num_feature+1)
+
+def calculate(x, y):
+    num_feature = len(x[0])
+    theta = zeros(num_feature) #(1,n+1)
     alpha = 0.3
 
-    return gd(theta,x,y,20,alpha)
+    return gd(theta, x, y, 22, alpha)
 
 
 def run():
     data = loadtxt('data/ex2data1.txt', delimiter=',')
     x = data[:, 0:2]
-    y = data[:, 2]
+    y = data[:, 2] #(m,1)
+    ones_col = ones((len(x), 1))
+    x_new = append(ones_col, x, 1) #(m,n+1)
 
-    theta = calculate(x,y)
-
+    theta = calculate(x_new,y)
     print("theta is:")
     print(theta)
 
-    totalCost = 0
-
-def test():
-    x = array([[1,2],[3,4],[5,6]])
-    o = ones((3,1))
-    temp = append(o, x,1)
-    print(temp)
-    theta = array ([1,1,1])
-    y = [0, 1, 1]
+    cost = cost_func(x_new, y, theta)
+    print(cost)
 
 
 if __name__ == "__main__":
     run()
 
-'''data = loadtxt('data/ex2data1.txt', delimiter=',')
-
-X = data[:, 0:2]
-y = data[:, 2]
-
-pos = where(y == 1)
-neg = where(y == 0)
-
-scatter(X[pos, 0], X[pos, 1], marker='o', c='g')
-scatter(X[neg, 0], X[neg, 1], marker='x', c='r')
-xlabel('Exam 1 score')
-ylabel('Exam 2 score')
-legend(['Not Admitted', 'Admitted'])
-show()'''
 
