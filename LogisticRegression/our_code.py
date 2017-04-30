@@ -54,17 +54,17 @@ def calculate(x, y):
 
 def run():
     data = loadtxt('data/ex2data1.txt', delimiter=',')
-    x = data[:, 0:2]
-    y = data[:, 2] #(m,1)
+    x = data[:99, 0:2]
+    y = data[:99, 2] #(m,1)
+    z = data[99:, 0:2]
     ones_col = ones((len(x), 1))
     x_new = append(ones_col, x, 1) #(m,n+1)
 
-    theta = calculate(x_new,y)
-    print("theta is:")
-    print(theta)
+    z_pri = [52.34800398794107,60.76950525602592]
 
-    cost = cost_func(x_new, y, theta)
-    print(cost)
+    theta = calculate(x_new,y)
+
+    print(hypothesis(theta, z_pri))
 
 
 if __name__ == "__main__":
