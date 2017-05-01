@@ -5,12 +5,12 @@ from sklearn import linear_model as lrm
 def run():
     data = loadtxt('data/ex2data1.txt', delimiter=',')
     x = data[:, 0:2]
-    x_train = x[:99]
-    x_test = x[99:]
+    x_train = x[:-1]
+    x_test = x[-1:]
 
     y = data[:, 2]
-    y_train = y[:99]
-    y_test = y[99:]
+    y_train = y[:-1]
+    y_test = y[-1:]
 
     lr = lrm.LogisticRegression()
     lr.fit(x_train, y_train)
