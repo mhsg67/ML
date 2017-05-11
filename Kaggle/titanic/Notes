@@ -1,0 +1,39 @@
+# 0.75 => 0.75598
+# 0.99 => 0.74163
+
+titan['Sex'] = titan['Sex'].map(lambda x: 1 if x == 'male' else 0)
+survived = titan[titan['Survived'] == 1]
+survived = survived[survived['Age'].notnull()]
+dead = titan[titan['Survived'] == 0]
+dead = dead[dead['Age'].notnull()]
+
+#plt.plot(survived['Age'], survived['Fare'], 'o')
+#plt.plot(dead['Age'], dead['Fare'], 'x')
+
+plt.hist([dead['Age'],survived['Age']], stacked=True)
+plt.show()'''#
+# test_passenger = train_set.iloc[6]
+# test_passenger_features = test_passenger.drop(['Survived'], axis = 1)
+# test_passenger_target = test_passenger['Survived']
+# if lr.predict(test_passenger_features) == test_passenger_target:
+#     print("YES")
+# else:
+#     print("NO")
+
+# print(train_set[0])
+# print(test_set[0])
+#print(titan[667])
+#print(titan[668,:])
+
+
+titan['Sex'] = titan['Sex'].map(lambda x: 1 if x == 'male' else 0)
+survived = titan[titan['Survived'] == 1]
+survived = survived[survived['Age'].notnull()]
+dead = titan[titan['Survived'] == 0]
+dead = dead[dead['Age'].notnull()]
+
+#plt.plot(survived['Age'], survived['Fare'], 'o')
+#plt.plot(dead['Age'], dead['Fare'], 'x')
+
+plt.hist([dead['Age'],survived['Age']], stacked=True)
+plt.show()
