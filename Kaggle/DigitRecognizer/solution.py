@@ -3,20 +3,20 @@ from sklearn.neural_network import MLPClassifier
 import matplotlib.pyplot as plt
 import numpy as np
 
-def ShowDigit(digit):
+def showDigit(digit):
     im = digit
     im = np.reshape(im, (28, 28), order="F")  # "F" means read/write by 1st index changing fastest, last index slowest.
     plt.imshow(im, cmap='gray')
     plt.plot()
 
 def predict(classifier, X, expectedAns=None):
+    showDigit(X)
     clf = classifier #goshadi
     if (expectedAns!=None):
-        ShowDigit(expectedAns)
-        print("expected Answer is: " + expectedAns)
+        print("expected Answer is: " + str(expectedAns))
 
-    print("predict proba: " + clf.predict_proba([X]))
-    print("predict: " + clf.predict([X]))
+    print("predict proba: " + str(clf.predict_proba([X])))
+    print("predict: " + str(clf.predict([X])))
 
 digits = ps.read_csv('data/train.csv')
 X = digits.drop(['label'], axis = 1)
