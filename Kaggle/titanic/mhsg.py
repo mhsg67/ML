@@ -4,6 +4,7 @@ from sklearn.preprocessing import Imputer
 from sklearn.feature_extraction import DictVectorizer
 
 # Read about ghosl in Islam :D
+
 def ghosl(dirty_df,vectorizer):
     # Vectorizing
     dirty_df = dirty_df.to_dict(orient='records')
@@ -13,7 +14,6 @@ def ghosl(dirty_df,vectorizer):
     imp = Imputer(missing_values='NaN', strategy='most_frequent', axis=0)
     imp.fit(cleaned_df)
     cleaned_df_imputed = imp.transform(cleaned_df)
-
     return cleaned_df_imputed
 
 
@@ -21,8 +21,8 @@ def show_result(cleaned_features, cleaned_target, model):
     # Make sure you've already ghosled your data
     SAMPLE = len(cleaned_features)
     falses = abs((model.predict(cleaned_features[:SAMPLE]) - cleaned_target.head(SAMPLE).values)).sum()
-
     return (100 - (falses / SAMPLE) * 100)
+
 
 def solve(features,model, vectorizer):
     ghosled_features = ghosl(features,vectorizer)
@@ -39,10 +39,13 @@ def feature_cleaning(features,survived_removal=True):
     features = features.drop(['Ticket'], axis=1)
     features = features.drop(['Cabin'], axis=1)
 
+    features = features[["Pclass", "Sex", "Age"]]
+
+
     return features
 
 # Splitting data to training and testing
-train_set_ration = 0.99
+train_set_ration = 0.75
 titan = ps.read_csv('data/train.csv')
 train_set_size = int(train_set_ration * len(titan))
 test_set_size = len(titan) - train_set_size
