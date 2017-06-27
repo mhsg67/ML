@@ -5,9 +5,10 @@ import numpy as np
 
 def showDigit(digit):
     im = digit
-    im = np.reshape(im, (28, 28), order="F")  # "F" means read/write by 1st index changing fastest, last index slowest.
+    im = np.reshape(im, (28, 28))  # "F" means read/write by 1st index changing fastest, last index slowest.
     plt.imshow(im, cmap='gray')
     plt.plot()
+    plt.show()
 
 def predict(classifier, X, expectedAns=None):
     showDigit(X)
